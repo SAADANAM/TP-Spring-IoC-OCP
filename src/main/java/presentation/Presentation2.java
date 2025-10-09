@@ -1,25 +1,19 @@
 package presentation;
 
 import metier.IMetier;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
 
 @Configuration
-@ComponentScan(basePackages = {"dao", "metier"})
+@ComponentScan(basePackages = {"dao","metier","config"})
 public class Presentation2 {
     public static void main(String[] args) {
-        // Création du contexte Spring avec activation du profil "dev"
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-        context.getEnvironment().setActiveProfiles("dev");  // Active le profil "dev"
-        context.register(Presentation2.class);
-        context.refresh();
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
 
-        // Récupération du bean IMetier
-        IMetier metier = context.getBean(IMetier.class);
+        ctx.register(Presentation2.class);
+        ctx.refresh();
 
-        // Exécution et affichage du résultat
+        IMetier metier = ctx.getBean(IMetier.class);
         System.out.println("Résultat = " + metier.calcul());
+        ctx.close();
     }
 }
